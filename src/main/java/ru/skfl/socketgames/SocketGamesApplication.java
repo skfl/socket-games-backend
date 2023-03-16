@@ -8,10 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class SocketGamesApplication {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(SocketGamesApplication.class, args);
