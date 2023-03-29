@@ -1,24 +1,23 @@
 package ru.skfl.socketgames.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.skfl.socketgames.dtos.AuthResponse;
-import ru.skfl.socketgames.dtos.UserLoginForm;
+import org.springframework.web.bind.annotation.*;
+import ru.skfl.socketgames.dtos.request.LoginRequest;
+import ru.skfl.socketgames.dtos.response.AuthResponse;
 import ru.skfl.socketgames.services.interfaces.SignInService;
 
 @RestController
-@RequestMapping("/signIn")
 @RequiredArgsConstructor
+@CrossOrigin
+@RequestMapping("/signIn")
 public class SignInController {
 
     private final SignInService signInService;
 
-    @PostMapping
-    public ResponseEntity<AuthResponse> signIn(@RequestBody UserLoginForm loginForm){
-        return ResponseEntity.ok(signInService.signIn(loginForm));
+    @PostMapping("/do")
+    public AuthResponse signIn(@RequestBody LoginRequest loginForm) {
+        System.err.println("username = "+loginForm.getUsername());
+        System.err.println("password = "+loginForm.getPassword());
+        return signInService.signIn(loginForm);
     }
 }

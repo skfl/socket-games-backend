@@ -1,8 +1,8 @@
 package ru.skfl.socketgames.services.interfaces;
 
-import ru.skfl.socketgames.dtos.AuthResponse;
-import ru.skfl.socketgames.dtos.UserLoginForm;
+import ru.skfl.socketgames.dtos.response.AuthResponse;
+import ru.skfl.socketgames.dtos.request.LoginRequest;
 
 public interface SignInService {
-    AuthResponse signIn(UserLoginForm loginForm);
+    AuthResponse signIn(LoginRequest loginForm);
 }

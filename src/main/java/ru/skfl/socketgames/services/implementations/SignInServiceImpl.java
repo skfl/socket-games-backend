@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import ru.skfl.socketgames.dtos.AuthResponse;
-import ru.skfl.socketgames.dtos.UserLoginForm;
+import ru.skfl.socketgames.dtos.response.AuthResponse;
+import ru.skfl.socketgames.dtos.request.LoginRequest;
 import ru.skfl.socketgames.entities.User;
 import ru.skfl.socketgames.repository.UserRepository;
 import ru.skfl.socketgames.security.JwtService;
@@ -22,7 +22,7 @@ public class SignInServiceImpl implements SignInService {
 
 
     @Override
-    public AuthResponse signIn(UserLoginForm loginForm) {
+    public AuthResponse signIn(LoginRequest loginForm) {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
         User user = userRepository.findByUsername(loginForm.getUsername()).orElseThrow();

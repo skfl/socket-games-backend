@@ -1,4 +1,4 @@
-package ru.skfl.socketgames.dtos;
+package ru.skfl.socketgames.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthResponse {
+public class AuthResponse extends StandardResponse {
     private String token;
 }

@@ -3,18 +3,17 @@ package ru.skfl.socketgames.services.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.skfl.socketgames.dtos.UserDTO;
-import ru.skfl.socketgames.dtos.UserSignUpForm;
+import ru.skfl.socketgames.dtos.request.SignUpRequest;
 import ru.skfl.socketgames.entities.User;
 import ru.skfl.socketgames.entities.UserRole;
 import ru.skfl.socketgames.entities.UserState;
 import ru.skfl.socketgames.exception.custom.UserAlreadyExistsWithEmailException;
 import ru.skfl.socketgames.exception.custom.UserAlreadyExistsWithUsernameException;
-import ru.skfl.socketgames.mappers.UserMapper;
 import ru.skfl.socketgames.repository.UserRepository;
+import ru.skfl.socketgames.dtos.response.ResponseInfo;
+import ru.skfl.socketgames.dtos.response.ResultCode;
+import ru.skfl.socketgames.dtos.response.StandardResponse;
 import ru.skfl.socketgames.services.interfaces.SignUpService;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,17 +23,13 @@ public class SignUpServiceImpl implements SignUpService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDTO signUp(UserSignUpForm signUpForm) {
+    public StandardResponse signUp(SignUpRequest signUpForm) {
 
-        Optional<User> foundByEmail =
-                userRepository.findByEmail(signUpForm.getEmail());
-        if (foundByEmail.isPresent()) {
+        if (userRepository.existsByEmail(signUpForm.getEmail())) {
             throw new UserAlreadyExistsWithEmailException();
         }
 
-        Optional<User> foundByUsername =
-                userRepository.findByUsername(signUpForm.getUsername());
-        if (foundByUsername.isPresent()) {
+        if (userRepository.existsByUsername(signUpForm.getUsername())){
             throw new UserAlreadyExistsWithUsernameException();
         }
 
@@ -46,6 +41,7 @@ public class SignUpServiceImpl implements SignUpService {
                 .userState(UserState.NOT_CONFIRMED)
                 .build();
 
-        return UserMapper.INSTANCE.toDTO(userRepository.save(user));
+        userRepository.save(user);
+        return new StandardResponse(ResponseInfo.getInstance(ResultCode.OK,"User successfully created"));
     }
 }

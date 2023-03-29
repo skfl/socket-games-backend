@@ -1,6 +1,7 @@
 package ru.skfl.socketgames.mappers;
 
 import org.mapstruct.Mapper;
+
 import org.mapstruct.factory.Mappers;
 import ru.skfl.socketgames.dtos.UserDTO;
 import ru.skfl.socketgames.entities.User;
