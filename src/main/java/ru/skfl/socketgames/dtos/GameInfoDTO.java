@@ -9,8 +9,8 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class GameInfoDTO {
-
     private String title;
     private String description;
     private String imgUrl;
+    private String playUrl;
 }

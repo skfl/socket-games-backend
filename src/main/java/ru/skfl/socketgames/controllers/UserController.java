@@ -16,8 +16,6 @@ public class UserController {
 
     @GetMapping("/get")
     public UserInfoResponse getUserData(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        System.err.println("TOKEN");
-        System.err.println(token);
         return userService.getUserData(token);
     }
 }

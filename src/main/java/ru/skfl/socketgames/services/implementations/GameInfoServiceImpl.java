@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.skfl.socketgames.dtos.GameInfoDTO;
 import ru.skfl.socketgames.entities.GameInfo;
 import ru.skfl.socketgames.exception.custom.GameAlreadyExistsException;
+import ru.skfl.socketgames.mappers.GameInfoMapper;
 import ru.skfl.socketgames.repository.GameInfoRepository;
 import ru.skfl.socketgames.dtos.response.GameInfoResponse;
 import ru.skfl.socketgames.dtos.response.ResponseInfo;
@@ -24,11 +25,9 @@ public class GameInfoServiceImpl implements GameInfoService {
         List<GameInfoDTO> gameInfo = gameInfoRepository
                 .findAll()
                 .stream()
-                .map((entity) -> GameInfoDTO.builder().description(entity.getDescription())
-                        .title(entity.getTitle())
-                        .imgUrl(entity.getImgUrl())
-                        .build())
+                .map(GameInfoMapper.INSTANCE::toDto)
                 .toList();
+
         return new GameInfoResponse(ResponseInfo.getInstance(ResultCode.OK), gameInfo);
     }
 

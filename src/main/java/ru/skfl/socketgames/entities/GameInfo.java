@@ -24,4 +24,7 @@ public class GameInfo {
     private String description;
     @NotBlank
     private String imgUrl;
+
+    @NotBlank
+    private String playUrl;
 }

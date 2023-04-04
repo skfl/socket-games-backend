@@ -1,6 +1,5 @@
-package ru.skfl.socketgames.config;
+package ru.skfl.socketgames.security;
 
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ru.skfl.socketgames.security.JwtAuthFilter;
+import ru.skfl.socketgames.security.filter.JwtAuthFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -27,18 +26,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/signIn/**", "/signUp/**", "/about", "/user/get")
-                .permitAll()
+                    .requestMatchers("/signIn/**", "/signUp/**")
+                    .permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-//                .formLogin((formLogin) ->
-//                        formLogin.usernameParameter("username")
-//                                .passwordParameter("password")
-//                                .loginPage("/signIn")
-//                                .loginProcessingUrl("/signIn/do")
-//                                .failureUrl("/signIn?err"))
                 .logout((logout) -> logout.logoutSuccessUrl("/"))
                 .cors(Customizer.withDefaults())
                 .authenticationProvider(authenticationProvider)
@@ -54,7 +49,7 @@ public class WebSecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000").allowCredentials(true);
             }
         };
     }

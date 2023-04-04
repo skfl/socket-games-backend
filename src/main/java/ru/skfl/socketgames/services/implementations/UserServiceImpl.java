@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfoResponse getUserData(String token) {
-        String username = jwtService.extractUsername(token);
+        String username = jwtService.extractUsername(token.substring(7));
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
